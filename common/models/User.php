@@ -1,10 +1,12 @@
 <?php
+
 namespace common\models;
 
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -55,6 +57,26 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'message' => 'This email address has already been taken.'],
+            ['password_hash', 'required'],
+            ['password_hash', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['username', 'required'],
+            ['username', 'unique', 'message' => 'This username has already been taken.'],
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Имя пользователя',
+            'email' => 'почта',
+            'password_hash' => 'Пароль',
+            'role' => 'Роль'
         ];
     }
 
@@ -109,7 +131,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -128,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -208,5 +231,32 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return array_keys(Yii::$app->authManager->getRolesByUser($this->id));
+    }
+
+    public function makeRequiredAttributes()
+    {
+        $this->setPassword($this->password_hash);
+        $this->generateAuthKey();
+        $this->generateEmailVerificationToken();
+    }
+
+    /**
+     * @return array
+     */
+    public static function getModerators()
+    {
+        $roles = AuthItemChild::getModerators();
+        $id = AuthAssignment::getModeratorsId($roles);
+        $users = static::find()->select(['id', 'username'])->where(['in', 'id', $id])->asArray()->all();
+        $users = ArrayHelper::map($users, 'id', 'username');
+        return $users;
     }
 }
