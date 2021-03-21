@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\models\NewsAlert;
+use common\models\User;
 use Yii;
 use common\models\News;
 use common\models\NewsSearch;

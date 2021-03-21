@@ -82,4 +82,12 @@ class News extends \yii\db\ActiveRecord
     {
         return $this->hasMany(User::className(), ['id' => 'id_user'])->viaTable('news_alert', ['id_news' => 'id']);
     }
+
+    /**
+     * @return string
+     */
+    public function shortContent()
+    {
+        return strlen($this->content) < 120 ? $this->content : rtrim(mb_strimwidth($this->content, 0, 120));
+    }
 }

@@ -1,11 +1,13 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\News;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;

@@ -14,10 +14,11 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.6.0",
-        "yiisoft/yii2": "~2.0.14",
-        "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0"
+        "nkovacs/yii2-pagesizer": "*",
+        "yiisoft/yii2-bootstrap": "^2.0",
+        "symfony/polyfill-php72": "^1.22",
+        "symfony/polyfill-intl-idn": "^1.22",
+        "yiisoft/yii2-swiftmailer": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
