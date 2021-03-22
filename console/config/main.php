@@ -37,6 +37,10 @@ return [
                 ],
             ],
         ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'scriptUrl' => 'http://path/to'
+        ]
     ],
     'params' => $params,
 ];

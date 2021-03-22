@@ -3,7 +3,6 @@
 namespace backend\controllers;
 
 use common\models\NewsAlert;
-use common\models\NewsNotification;
 use common\models\User;
 use Yii;
 use common\models\News;
@@ -80,7 +79,6 @@ class NewsController extends Controller
         $model = new News();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            NewsNotification::createNews($model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
