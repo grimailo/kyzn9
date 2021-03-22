@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use \common\widgets\PopupNews;
 
 AppAsset::register($this);
 ?>
@@ -65,6 +66,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+				<?= PopupNews::widget() ?>
         <?= $content ?>
     </div>
 </div>

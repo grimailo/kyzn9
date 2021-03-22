@@ -1,0 +1,38 @@
+.popupContainer {
+	border-radius: 10px;
+	border: 2px solid gray;
+	position: fixed;
+	min-height: 80%;
+	width: 60%;
+	top: 10%;
+	left: 20%;
+	padding: 25px;
+	background-color: white;
+}
+
+#close-notification {
+	position: absolute;
+	right: 10px;
+	top: 1px;
+}
+
+#close-notification span {
+	font-size: 50px;
+}
+
+.block-title {
+	padding: 25px;
+	text-align: center;
+	margin-bottom: 25px;
+	font-size: 40px;
+}
+
+.news-popup {
+	padding: 25px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.news-title{
+	font-size: 20px;
+}

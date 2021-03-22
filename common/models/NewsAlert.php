@@ -67,4 +67,26 @@ class NewsAlert extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
+
+    /**
+     * @param $userId
+     * @return array
+     */
+    static public function getUserAlert($userId)
+    {
+        $newsAlert = NewsAlert::find()
+            ->select('id_news')
+            ->where(['id_user' => $userId])
+            ->asArray()
+            ->column
+            ();
+        if (!empty($newsAlert)) {
+            return $newsAlert;
+        }
+    }
+
+    static public function deleteAllUserAlert($idUser)
+    {
+        static::deleteAll(['in', 'id_user', $idUser]);
+    }
 }
